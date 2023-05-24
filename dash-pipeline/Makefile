@@ -11,7 +11,7 @@ run-saithrift-client-tests: run-saithrift-ptftests run-saithrift-pytests
 run-saithrift-client-dev-tests: run-saithrift-dev-ptftests run-saithrift-dev-pytests
 
 .PHONY:clean
-clean: kill-all p4-clean sai-clean test-clean network-clean saithrift-server-clean
+clean: kill-all p4-clean sai-clean test-clean network-clean saithrift-server-clean saichallenger-meta-clean
 	rm -rf $(P4_OUTDIR)
 
 kill-all: kill-saithrift-server kill-switch undeploy-ixiac kill-saichallenger-client
@@ -698,21 +698,21 @@ kill-saichallenger-client:
 
 run-saichallenger-tests: run-saichallenger-functional-tests run-saichallenger-scale-tests
 
-run-saichallenger-functional-tests: deploy-ixiac
+run-saichallenger-functional-tests: deploy-ixiac saichallenger-meta
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
 	-w /sai-challenger/dash_tests/functional \
 	$(DOCKER_FLAGS) \
 	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
 	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
 
-run-saichallenger-scale-tests: deploy-ixiac
+run-saichallenger-scale-tests: deploy-ixiac saichallenger-meta
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
 	-w /sai-challenger/dash_tests/scale \
 	$(DOCKER_FLAGS) \
 	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
 	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) $(SAI_CHALLENGER_TEST)
 
-run-saichallenger-tutorials: deploy-ixiac
+run-saichallenger-tutorials: deploy-ixiac saichallenger-meta
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
 	-w /sai-challenger/dash_tests/functional \
 	$(DOCKER_FLAGS) \
@@ -724,6 +724,8 @@ saichallenger-meta:
 		bash -c "../../../test/SAI-Challenger/scripts/generate_thrift_meta.sh sai_challenger_thrift_metadata.py"
 	mv -f SAI/saithrift/sai_challenger_thrift_metadata.py ../test/SAI-Challenger/common/sai_client/sai_thrift_client/sai_thrift_metadata.py
 
+saichallenger-meta-clean:
+	pushd $(SAI_CHALLENGER_PATH) && git checkout -- common/sai_client/sai_thrift_client/sai_thrift_metadata.py && popd
 ###############################
 # ENVIRONMENT SETUP TARGETS
 ###############################
