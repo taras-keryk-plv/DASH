@@ -4,7 +4,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir := $(dir $(mkfile_path))
 
 # "All" type targets for convenience
-all:p4 sai saithrift-server docker-saithrift-client saichallenger-meta docker-saichallenger-client test
+all:p4 sai saithrift-server docker-saithrift-client docker-saichallenger-client test
 
 run-all-tests:run-libsai-test run-saithrift-client-tests run-saichallenger-tests
 run-saithrift-client-tests: run-saithrift-ptftests run-saithrift-pytests
@@ -204,11 +204,6 @@ sai-clean: SAI/SAI libsai-clean saithrift-server-clean
 	@echo "Restoring SAI subdirectories to baseline..."
 	rm -rf SAI/SAI/inc SAI/SAI/experimental SAI/SAI/meta
 	cd SAI/SAI && git checkout -- inc experimental meta
-
-saichallenger-meta:
-	$(DOCKER_RUN_SAITHRIFT_BLDR) \
-		bash -c "../../../test/SAI-Challenger/scripts/generate_thrift_meta.sh sai_challenger_thrift_metadata.py"
-	mv SAI/saithrift/sai_challenger_thrift_metadata.py ../test/SAI-Challenger/common/sai_client/sai_thrift_client/sai_thrift_metadata.py
 
 # Run to recreate same environment as building saithrift client & server
 run-saithrift-bldr-bash:
@@ -646,7 +641,7 @@ endif
 DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG_TAG = $(shell cat dockerfiles/Dockerfile.saichallenger-client-bldr | sha1sum | awk '{print substr($$1,0,11);}')
 DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG = $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG_NAME):$(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG_TAG)
 
-docker-saichallenger-client-bldr:
+docker-saichallenger-client-bldr: saichallenger-meta
 	{ [ x$(ENABLE_DOCKER_PULL) == xy ] && docker pull $(DOCKER_SAI_CHALLENGER_CLIENT_BLDR_IMG); } || \
 		{ pushd $(SAI_CHALLENGER_PATH) && git submodule update --init && ./build.sh -i client && popd; \
 		docker build \
@@ -683,18 +678,19 @@ DOCKER_RUN_SAI_CHALLENGER_CLIENT=docker run \
 	--network=host \
 	--name $(CONTAINER_SAI_CHALLENGER_CLIENT_NAME)
 
-run-saichallenger-client: deploy-ixiac
+run-saichallenger-client: deploy-ixiac saichallenger-meta
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
 	-d \
 	--name $(CONTAINER_SAI_CHALLENGER_CLIENT_NAME) \
-	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG)
+	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
+	bash -c "pip3 install /sai-challenger/common /sai-challenger"
 
-run-saichallenger-client-bash: deploy-ixiac
+run-saichallenger-client-bash: deploy-ixiac saichallenger-meta
 	$(DOCKER_RUN_SAI_CHALLENGER_CLIENT) \
 	-w /sai-challenger/dash_tests \
 	$(DOCKER_FLAGS) \
 	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
-	/bin/bash
+	bash -c "pip3 install /sai-challenger/common /sai-challenger && /bin/bash"
 
 kill-saichallenger-client:
 	-docker kill $(CONTAINER_SAI_CHALLENGER_CLIENT_NAME)
@@ -721,6 +717,11 @@ run-saichallenger-tutorials: deploy-ixiac
 	$(DOCKER_FLAGS) \
 	$(DOCKER_SAI_CHALLENGER_CLIENT_IMG) \
 	./run-tests.sh --setup=$(SAI_CHALLENGER_SETUP_FILE) tutorial
+
+saichallenger-meta:
+	$(DOCKER_RUN_SAITHRIFT_BLDR) \
+		bash -c "../../../test/SAI-Challenger/scripts/generate_thrift_meta.sh sai_challenger_thrift_metadata.py"
+	mv -f SAI/saithrift/sai_challenger_thrift_metadata.py ../test/SAI-Challenger/common/sai_client/sai_thrift_client/sai_thrift_metadata.py
 
 ###############################
 # ENVIRONMENT SETUP TARGETS
