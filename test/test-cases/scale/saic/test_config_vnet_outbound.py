@@ -9,7 +9,7 @@ import pytest
 
 # The following test function will be executed twice - against each cfg_type: simple and scale
 @pytest.mark.parametrize('cfg_type', ['simple', 'scale'])
-@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+#@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
 def test_config_vnet_outbound_parametrized(dpu, cfg_type):
 
     # Loading unified SAI commands from file based on cfg_type
