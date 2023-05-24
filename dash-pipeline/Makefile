@@ -4,7 +4,7 @@ mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir := $(dir $(mkfile_path))
 
 # "All" type targets for convenience
-all:p4 sai saithrift-server docker-saithrift-client docker-saichallenger-client test
+all:p4 sai saithrift-server docker-saithrift-client saichallenger-meta docker-saichallenger-client test
 
 run-all-tests:run-libsai-test run-saithrift-client-tests run-saichallenger-tests
 run-saithrift-client-tests: run-saithrift-ptftests run-saithrift-pytests
@@ -205,6 +205,10 @@ sai-clean: SAI/SAI libsai-clean saithrift-server-clean
 	rm -rf SAI/SAI/inc SAI/SAI/experimental SAI/SAI/meta
 	cd SAI/SAI && git checkout -- inc experimental meta
 
+saichallenger-meta:
+	$(DOCKER_RUN_SAITHRIFT_BLDR) \
+		bash -c "../../../test/SAI-Challenger/scripts/generate_thrift_meta.sh sai_challenger_thrift_metadata.py"
+	mv SAI/saithrift/sai_challenger_thrift_metadata.py ../test/SAI-Challenger/common/sai_client/sai_thrift_client/sai_thrift_metadata.py
 
 # Run to recreate same environment as building saithrift client & server
 run-saithrift-bldr-bash:
