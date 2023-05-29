@@ -9,12 +9,13 @@ import pytest
 
 # The following test function will be executed twice - against each cfg_type: simple and scale
 @pytest.mark.parametrize('cfg_type', ['simple', 'scale'])
-@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+#@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
 def test_config_vnet_outbound_parametrized(dpu, cfg_type):
 
     # Loading unified SAI commands from file based on cfg_type
     current_file_dir = Path(__file__).parent
     with (current_file_dir / f'vnet_outbound_setup_commands_{cfg_type}.json').open(mode='r') as config_file:
+        print(f"==TK== config_file={config_file}")
         setup_commands = json.load(config_file)
 
     try:
