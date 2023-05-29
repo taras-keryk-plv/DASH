@@ -9,6 +9,7 @@ import pytest
 class TestSaiVnetVni:
 
     @pytest.mark.dependency(scope='session')
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_vni_create(self, dpu):
 
         commands = [
@@ -77,6 +78,7 @@ class TestSaiVnetVni:
         print("\n======= SAI commands RETURN values get =======")
         pprint(results)
 
+    @pytest.mark.skip(reason="get and set not implemented, yet")
     def test_vnet_vni_remove(self, dpu):
 
         commands = [

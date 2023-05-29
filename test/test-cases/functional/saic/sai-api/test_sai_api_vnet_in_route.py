@@ -12,6 +12,7 @@ SWITCH_ID = 5
 class TestSaiVnetInboundRoutingEntry:
 
     @pytest.mark.dependency()
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_routing_entry_create_setup(self, dpu):
 
         # Create VNET
@@ -90,6 +91,10 @@ class TestSaiVnetInboundRoutingEntry:
                     "SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID",
                     "0",
                     "SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID",
+                    "0",
+                    "SAI_ENI_ATTR_V4_METER_POLICY_ID",
+                    "0",
+                    "SAI_ENI_ATTR_V6_METER_POLICY_ID",
                     "0"
                 ]
             },
@@ -198,6 +203,7 @@ class TestSaiVnetInboundRoutingEntry:
         pprint(results)
 
     @pytest.mark.dependency(depends=['TestSaiVnetInboundRoutingEntry::test_vnet_inbound_routing_entry_create_setup'])
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_routing_entry_remove_cleanup(self, dpu):
         
         # Remove VNET
