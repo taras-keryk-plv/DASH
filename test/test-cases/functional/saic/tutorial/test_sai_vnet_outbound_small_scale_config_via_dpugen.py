@@ -66,7 +66,7 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_create_vnet_scale_config_generated(self, dpu):
         """Generate and apply configuration"""
         results = [*dpu.process_commands( (self.make_create_commands()) )]
@@ -76,7 +76,7 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_remove_vnet_scale_config_generated(self, dpu):
         """
         Generate and remove configuration
