@@ -7,7 +7,7 @@ import pytest
 
 
 class TestSaiVnetEni:
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_eni_create(self, dpu):
 
         commands = [
@@ -146,7 +146,7 @@ class TestSaiVnetEni:
         print("\n======= SAI commands RETURN values get =======")
         pprint(results)
 
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_eni_remove(self, dpu):
 
         commands = [
