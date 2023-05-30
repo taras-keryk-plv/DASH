@@ -11,7 +11,7 @@ SWITCH_ID = 5
 
 class TestSaiVnetOutboundRoutingEntry:
 
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_outbound_routing_entry_create(self, dpu):
 
         # Create VNET
@@ -177,7 +177,7 @@ class TestSaiVnetOutboundRoutingEntry:
         print("\n======= SAI commands RETURN values create =======")
         pprint(results)
 
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_outbound_routing_entry_remove(self, dpu):
         commands = [
             {

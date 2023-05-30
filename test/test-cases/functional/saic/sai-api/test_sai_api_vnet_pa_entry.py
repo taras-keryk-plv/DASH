@@ -11,7 +11,7 @@ SWITCH_ID = 5
 
 class TestSaiVnetPaEntry:
     
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_pa_validation_entry_create(self, dpu):
 
         # Create VNET
@@ -103,7 +103,7 @@ class TestSaiVnetPaEntry:
         print("\n======= SAI commands RETURN values get =======")
         pprint(results)
 
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_pa_validation_entry_remove(self, dpu):
 
         commands = [
