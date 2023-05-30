@@ -120,11 +120,13 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
+    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_create_vnet_config(self, dpu):
         """Generate and apply configuration"""
         results = [*dpu.process_commands( (self.make_create_vnet_config()) )]
 
     @pytest.mark.snappi
+    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_run_traffic_check_fixed_packets(self, dpu, dataplane):
         """
         Test with the fixed number of packets to send.
@@ -144,6 +146,7 @@ class TestSaiVnetOutbound:
                     "Test", timeout_seconds=5)
 
     @pytest.mark.snappi
+    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_run_traffic_check_fixed_duration(self, dpu, dataplane):
         """
         Test with the fixed traffic duration to send.
@@ -162,6 +165,7 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
+    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_remove_vnet_config(self, dpu, dataplane):
         """
         Generate and remove configuration
