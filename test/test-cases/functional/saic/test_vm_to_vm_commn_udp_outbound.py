@@ -71,6 +71,7 @@ class TestUdpOutbound:
         return setup_commands
 
     @pytest.mark.dependency()
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_setup(self, dpu, setup_config):
         results = [*dpu.process_commands(setup_config)]
         print("\n======= SAI setup commands RETURN values =======")
