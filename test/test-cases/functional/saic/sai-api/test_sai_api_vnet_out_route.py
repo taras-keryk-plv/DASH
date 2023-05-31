@@ -11,6 +11,7 @@ SWITCH_ID = 5
 
 class TestSaiVnetOutboundRoutingEntry:
 
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_outbound_routing_entry_create(self, dpu):
 
         # Create VNET
@@ -89,6 +90,10 @@ class TestSaiVnetOutboundRoutingEntry:
                     "SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID",
                     "0",
                     "SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID",
+                    "0",
+                    "SAI_ENI_ATTR_V4_METER_POLICY_ID",
+                    "0",
+                    "SAI_ENI_ATTR_V6_METER_POLICY_ID",
                     "0"
                 ]
             },
@@ -109,7 +114,9 @@ class TestSaiVnetOutboundRoutingEntry:
                 },
                 "attributes": [
                     "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet"
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet",
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_METER_POLICY_EN", "False",
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_METER_CLASS", "0"
                 ]
             },
         ]
@@ -146,7 +153,9 @@ class TestSaiVnetOutboundRoutingEntry:
                 },
                 "attributes": [
                     "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet"
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet",
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_METER_POLICY_EN", "False",
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_METER_CLASS", "0"
                 ]
             },
         ]
@@ -168,6 +177,7 @@ class TestSaiVnetOutboundRoutingEntry:
         print("\n======= SAI commands RETURN values create =======")
         pprint(results)
 
+    #@pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_outbound_routing_entry_remove(self, dpu):
         commands = [
             {
