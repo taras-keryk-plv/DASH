@@ -1,2 +1,2 @@
-snappi
+snappi==0.9.4
 pytest
