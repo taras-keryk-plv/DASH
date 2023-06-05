@@ -126,7 +126,6 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_simple_create(self, dpu):
         """Generate and apply configuration"""
 
@@ -137,7 +136,6 @@ class TestSaiVnetOutbound:
         pprint(result)
 
     @pytest.mark.ptf
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_simple_packet_modification(self, dpu, dataplane):
         """Verify proper packet transformation."""
 
@@ -249,7 +247,6 @@ class TestSaiVnetOutbound:
         verify_packet(dataplane, vxlan_exp_pkt, 0)
 
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_simple_traffic_fixed_packets(self, dpu, dataplane):
         """
         Verify same config with high-rate traffic.
@@ -263,7 +260,6 @@ class TestSaiVnetOutbound:
                     "Test", timeout_seconds=10)
 
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_simple_traffic_fixed_duration(self, dpu, dataplane):
         """
         Test with the fixed traffic duration to send.
@@ -282,7 +278,6 @@ class TestSaiVnetOutbound:
 
     @pytest.mark.ptf
     @pytest.mark.snappi
-    @pytest.mark.skip("Dependency on SAI-Challenger PR #81 to update metadata")
     def test_vnet_inbound_simple_remove(self, dpu):
         """Verify configuration removal"""
 
